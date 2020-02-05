@@ -113,7 +113,7 @@ class ServerController extends Controller
         // $hostnames= Server::select('user_name', DB::raw('GROUP_CONCAT(host_name) as hostnames'))
                     // ->groupBy('user_name')->get();
         // PostgreSQL
-        $hostnames= Server::select('user_name', DB::raw('string_agg(host_name,",") as hostnames'))
+        $hostnames= Server::select('user_name', DB::raw("string_agg(host_name,',') as hostnames"))
                     ->groupBy('user_name')->get();
         return response()->json($hostnames);
         // return DataTables::of($hostnames)->make(true);
