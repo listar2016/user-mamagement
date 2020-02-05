@@ -3,13 +3,13 @@
 @section('content')
   <div class="container">
     <div class="row justify-content-center">
-      <h3 class="col-12 text-center">User Information</h3>
+      <h3 class="col-12 text-center">Users</h3>
       <div class="table-responsive">
         <table id="user_table" class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Host Name</th>
+              <th>User Name</th>
+              <th>Host Names</th>
             </tr>
           </thead>
         </table>
@@ -23,16 +23,16 @@
 				processing: true,
 				serverSide: true,
 				ajax: {
-					url: "{{ route('users.index') }}",
+					url: "{{ route('hostnames') }}",
 				},
 				columns: [
 					{
-						data: 'name',
-						name: 'name'
+						data: 'user_name',
+						name: 'user_name'
 					},
 					{
-						data: 'hostname',
-						name: 'hostname'
+						data: 'hostnames',
+						name: 'hostnames'
 					},
 				]
 			});

@@ -20,7 +20,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin/home', 'HomeController@adminHome')->name('admin.home')->middleware('is_admin');
 
-
 Route::resource('users', 'UserController');
 Route::post('users/update', 'UserController@update')->name('users.update');
 Route::get('users/destroy/{id}', 'UserController@destroy');
+
+Route::resource('servers', 'ServerController');
+Route::post('servers/update', 'ServerController@update')->name('servers.update');
+Route::get('servers/destroy/{id}', 'ServerController@destroy');
+
+Route::get('hostnames','ServerController@getUserHostNames')->name('hostnames');

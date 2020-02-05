@@ -3,17 +3,19 @@
 @section('content')
   <div class="container">
     <div class="row justify-content-center">
-      <h3 class="col-12 text-center">User Management</h3>
+      <h3 class="col-12 text-center">Server Management</h3>
       <div class="col-12 text-right mb-2">
-        <button type="button" id="btn-create" class="btn btn-success btn-sm">Create User</button>
+        <button type="button" id="btn-create" class="btn btn-success btn-sm">Create Server</button>
       </div>
       <div class="table-responsive">
-        <table id="user_table" class="table table-bordered table-striped">
+        <table id="server_table" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Email</th>
-              {{-- <th>Password</th> --}}
+              <th>Host Name</th>
+              <th>IP Address</th>
+              <th>User Name</th>
+              <th>Password</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -26,7 +28,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Add New User</h4>
+          <h4 class="modal-title">Add New Server</h4>
           <button type="button" class="close" data-dismiss="modal">
             &times;
           </button>
@@ -40,12 +42,20 @@
               <input type="text" name="name" id="name" class="form-control" />
             </div>
             <div class="form-group">
-              <label class="control-label">Email : </label>
-              <input type="email" name="email" id="email" class="form-control" />
+              <label class="control-label">Host Name : </label>
+              <input type="text" name="host_name" id="host_name" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="control-label">IP Address : </label>
+              <input type="text" name="ip_address" id="ip_address" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="control-label">User Name: </label>
+              <input type="text" name="user_name" id="user_name" class="form-control" />
             </div>
             <div class="form-group" id="div-password">
               <label class="control-label">Password : </label>
-              <input type="password" name="password" id="password" class="form-control" />
+              <input type="text" name="password" id="password" class="form-control" />
             </div>
             <div class="form-group">
               <input type="hidden" name="action" id="action" value="Add" />
@@ -77,11 +87,11 @@
   <script>
     $(document).ready(function(){
     
-      $('#user_table').DataTable({
+      $('#server_table').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-          url: "{{ route('users.index') }}",
+          url: "{{ route('servers.index') }}",
         },
         columns: [
           {
@@ -89,13 +99,21 @@
             name: 'name'
           },
           {
-            data: 'email',
-            name: 'email'
+            data: 'host_name',
+            name: 'host_name'
           },
-          // {
-          //   data: 'password',
-          //   name: 'password'
-          // },
+          {
+            data: 'ip_address',
+            name: 'ip_address'
+          },
+          {
+            data: 'user_name',
+            name: 'user_name'
+          },
+          {
+            data: 'password',
+            name: 'password'
+          },
           {
             data: 'action',
             name: 'action',
@@ -105,7 +123,7 @@
       });
     
       $('#btn-create').click(function(){
-        $('#formModal .modal-title').text('Add New User');
+        $('#formModal .modal-title').text('Add New Server');
         $('#action_button').val('Add');
         $('#action').val('Add');
         $('#form_result').html('');
@@ -119,12 +137,12 @@
       
         if($('#action').val() == 'Add')
         {
-          action_url = "{{ route('users.store') }}";
+          action_url = "{{ route('servers.store') }}";
         }
       
         if($('#action').val() == 'Edit')
         {
-          action_url = "{{ route('users.update') }}";
+          action_url = "{{ route('servers.update') }}";
         }
       
         $.ajax({
@@ -148,7 +166,7 @@
             {
               html = '<div class="alert alert-success">' + data.success + '</div>';
               $('#sample_form')[0].reset();
-              $('#user_table').DataTable().ajax.reload();
+              $('#server_table').DataTable().ajax.reload();
             }
             $('#form_result').html(html);
           },
@@ -162,15 +180,17 @@
         var id = $(this).attr('id');
         $('#form_result').html('');
         $.ajax({
-          url :"/users/"+id+"/edit",
+          url :"/servers/"+id+"/edit",
           dataType:"json",
           success:function(data)
           {
             $('#name').val(data.result.name);
-            $('#email').val(data.result.email);
-            $('#password').val('');
+            $('#host_name').val(data.result.host_name);
+            $('#ip_address').val(data.result.ip_address);
+            $('#user_name').val(data.result.user_name);
+            $('#password').val(data.result.password);
             $('#hidden_id').val(id);
-            $('#formModal .modal-title').text('Edit User');
+            $('#formModal .modal-title').text('Edit Server');
             $('#action_button').val('Edit');
             $('#action').val('Edit');
             $('#formModal').modal('show');
@@ -178,16 +198,16 @@
         })
       });
       
-      var user_id;
+      var server_id;
       
       $(document).on('click', '.delete', function(){
-        user_id = $(this).attr('id');
+        server_id = $(this).attr('id');
         $('#confirmModal').modal('show');
       });
       
       $('#ok_button').click(function(){
         $.ajax({
-          url:"/users/destroy/"+user_id,
+          url:"/servers/destroy/"+server_id,
           beforeSend:function(){
             $('#ok_button').text('Deleting...');
           },
@@ -195,7 +215,7 @@
           {
             setTimeout(function(){
               $('#confirmModal').modal('hide');
-              $('#user_table').DataTable().ajax.reload();
+              $('#server_table').DataTable().ajax.reload();
               alert('Data Deleted');
             }, 1000);
           }
