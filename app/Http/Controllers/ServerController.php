@@ -11,10 +11,10 @@ use Validator;
 
 class ServerController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index(Request $request)
     {
@@ -109,10 +109,13 @@ class ServerController extends Controller
     }
 
     public function getUserHostNames() {
-
-        $hostnames= Server::select('user_name', DB::raw('GROUP_CONCAT(host_name) as hostnames'))
+        //MySQL
+        // $hostnames= Server::select('user_name', DB::raw('GROUP_CONCAT(host_name) as hostnames'))
+                    // ->groupBy('user_name')->get();
+        // PostgreSQL
+        $hostnames= Server::select('user_name', DB::raw('string_agg(host_name) as hostnames'))
                     ->groupBy('user_name')->get();
-        return response()->json($hostnames);
-        // return DataTables::of($hostnames)->make(true);
+        // return response()->json($hostnames);
+        return DataTables::of($hostnames)->make(true);
     }
 }
