@@ -111,7 +111,7 @@ class ServerController extends Controller
     public function getUserHostNames() {
 
         $hostnames= Server::select('user_name', DB::raw('GROUP_CONCAT(host_name) as hostnames'))
-                    ->groupBy('user_name');
+                    ->groupBy('user_name')->get();
         return response()->json($hostnames);
         // return DataTables::of($hostnames)->make(true);
     }
