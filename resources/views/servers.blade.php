@@ -12,7 +12,7 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Host Name</th>
+              <th>Domain</th>
               <th>IP Address</th>
               <th>User Name</th>
               <th>Password</th>
@@ -42,7 +42,7 @@
               <input type="text" name="name" id="name" class="form-control" />
             </div>
             <div class="form-group">
-              <label class="control-label">Host Name : </label>
+              <label class="control-label">Domain : </label>
               <input type="text" name="host_name" id="host_name" class="form-control" />
             </div>
             <div class="form-group">

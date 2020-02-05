@@ -9,7 +9,7 @@
           <thead>
             <tr>
               <th>User Name</th>
-              <th>Host Names</th>
+              <th>Domains</th>
             </tr>
           </thead>
         </table>
