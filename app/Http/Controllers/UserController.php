@@ -52,7 +52,7 @@ class UserController extends Controller
             'ip_address' => $request->ip_address
         );
 
-        User::create($form_data);
+        User::create1($form_data);
 
         return response()->json(['success' => 'User Added successfully.']);
 

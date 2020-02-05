@@ -169,6 +169,9 @@
               $('#user_table').DataTable().ajax.reload();
             }
             $('#form_result').html(html);
+          },
+          error:function(err){
+            console.log(err)
           }
         });
       });
