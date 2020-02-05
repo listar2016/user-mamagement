@@ -167,11 +167,13 @@
               html = '<div class="alert alert-success">' + data.success + '</div>';
               $('#sample_form')[0].reset();
               $('#server_table').DataTable().ajax.reload();
+              $('#formModal').modal('hide');
             }
             $('#form_result').html(html);
           },
           error:function(err){
             console.log(err)
+            $('#formModal').modal('hide');
           }
         });
       });
